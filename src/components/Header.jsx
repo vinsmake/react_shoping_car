@@ -1,6 +1,11 @@
 import { InCart } from "./InCart"
 
 export const Header = ({cart}) => {
+
+    const carEmpty = () => {
+        return cart.length === 0 
+    }
+
     return (
         <header className="py-5 header">
             <div className="container-xl">
@@ -17,7 +22,12 @@ export const Header = ({cart}) => {
                             <img className="img-fluid" src="./img/carrito.png" alt="imagen carrito" />
 
                             <div id="carrito" className="bg-white p-3">
-                                <p className="text-center">El carrito esta vacio</p>
+                                {
+                                //start if cart is empty
+                                    carEmpty() ? (
+                                        <p className="text-center">El carrito esta vacio</p>
+                                    ) : (
+                                
                                 <table className="w-100 table">
                                     <thead>
                                         <tr>
@@ -39,6 +49,9 @@ export const Header = ({cart}) => {
 
                                     </tbody>
                                 </table>
+
+                                //end if cart is empty
+                                )}
 
                                 <p className="text-end">Total pagar: <span className="fw-bold">$899</span></p>
                                 <button className="btn btn-dark w-100 mt-3 p-2">Vaciar Carrito</button>
