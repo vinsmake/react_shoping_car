@@ -10,6 +10,7 @@ export const App = () => {
 
   //STATE//
   const [data, setData] = useState(db);
+  const [cart, setCart ] = useState([]);
 
   //EFFECT//
 
@@ -18,9 +19,25 @@ export const App = () => {
 
 
 
+  const addToCart = (item) => {
+
+    //aqui buscamos un id repetido, de forma que no se agregue el mismo al carrito
+    const itemExists = cart.findIndex(guitar => guitar.id === item.id)
+    //si el item ya existe, se aumentara el numero, caso contrario, se agregara como nuevo item
+    if (itemExists >= 0) {
+      const updatedCart = [...cart]
+      updatedCart[itemExists].quantity++;
+      setCart(updatedCart)
+    } else {
+      item.quantity = 1;
+      setCart([...cart, item])
+    }
+
+  }
+
   return (
     <>
-      <Header />
+      <Header cart={cart} />
 
       <main className="container-xl mt-5">
 
@@ -30,7 +47,10 @@ export const App = () => {
 
           {
             data.map(guitar => (
-              <Guitar key={guitar.id} props={guitar}/>
+              <Guitar 
+              key={guitar.id}
+              guitar={guitar}
+              addToCart={addToCart}/>
             ))
           }
 
